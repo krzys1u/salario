@@ -1,8 +1,8 @@
 import React from 'react'
 import { withDebug } from '../../utils/withDebug'
 import { EmptyFiltersIcon } from './EmptyFiltersIcon'
-import { MessageCard } from '../MessageCard/MessageCard'
-import { useTranslation } from '../../contexts/LanguageContext'
+import { MessageCard } from '../MessageCard'
+import { useTranslation } from '../../contexts'
 
 export const EmptyFilters = withDebug(function EmptyFilters() {
   const { translations } = useTranslation()

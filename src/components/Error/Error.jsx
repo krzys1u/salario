@@ -2,8 +2,8 @@ import React from 'react'
 import { Button } from '@material-ui/core'
 import { withDebug } from '../../utils/withDebug'
 import { ErrorIcon } from './ErrorIcon'
-import { MessageCard } from '../MessageCard/MessageCard'
-import { useTranslation } from '../../contexts/LanguageContext'
+import { MessageCard } from '../MessageCard'
+import { useTranslation } from '../../contexts'
 
 export const Error = withDebug(function Error(props) {
   const { error, onClick } = props

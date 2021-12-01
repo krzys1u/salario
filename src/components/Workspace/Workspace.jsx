@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { useQuery } from 'react-query'
-import { Error as ErrorComponent } from '../Error/Error'
-import { Diagram } from '../Diagram/Diagram'
-import { EmptyFilters } from '../EmptyFilters/EmptyFilters'
+import { Error as ErrorComponent } from '../Error'
+import { Diagram } from '../Diagram'
+import { EmptyFilters } from '../EmptyFilters'
 import { withDebug } from '../../utils/withDebug'
 import { API_URL } from '../../config'
 import { EMPLOYMENT_TYPES, UOP_EMPLOYER_COST } from '../../const'
@@ -31,7 +31,7 @@ const fetchSalaryData = async (params) => {
   return data
 }
 
-const areFiltersEmpty = ({ types, measures, additionalFilters }) =>
+const areFiltersEmpty = ({ types, measures }) =>
   !Object.keys(types).filter((key) => !!types[key].checked).length ||
   !Object.keys(measures).filter((key) => !!measures[key].checked).length
 
@@ -144,15 +144,15 @@ const prepareData = ({ types, measures, additionalFilters }, data) => {
 }
 
 export const Workspace = withDebug(function Workspace({ filters }) {
-  const filtersEmpty = areFiltersEmpty(filters)
+  const filtersEmpty = areFiltersEmpty(filters.checkboxes)
 
   const { isError, error, refetch, data } = useQuery(
     [
       'data',
-      filters.types,
+      filters.checkboxes.types,
       filters.from,
       filters.to,
-      filters.additionalFilters,
+      filters.checkboxes.additionalFilters,
     ],
     fetchData,
     {
@@ -172,7 +172,10 @@ export const Workspace = withDebug(function Workspace({ filters }) {
     return <ErrorComponent error={error} onClick={errorClick} />
   }
 
-  const { dataSeries, dataPoints, range } = prepareData(filters, data)
+  const { dataSeries, dataPoints, range } = prepareData(
+    filters.checkboxes,
+    data,
+  )
 
   return (
     <Diagram

@@ -4,18 +4,19 @@ import debounce from 'lodash.debounce'
 
 import './App.scss'
 
-import { Filters } from './components/Filters/Filters'
-import { Header } from './components/Header/Header'
-import { Loader } from './components/Loader/Loader'
-import { Workspace } from './components/Workspace/Workspace'
+import {
+  Filters,
+  Header,
+  Loader,
+  Workspace,
+  LanguageSelector,
+} from './components'
 
 import { SALARY_MAX, SALARY_MIN } from './config'
 import { EMPLOYMENT_TYPES, MEASURES, ADDITIONAL_FILTERS } from './const'
 import { withDebug } from './utils/withDebug'
 
-import { WorkspaceSizeContext } from './contexts/WorkspaceSizeContext'
-import { useTheme } from './contexts/ThemeContext'
-import { LanguageSelector } from './components/LanguageSelector/LanguageSelector'
+import { WorkspaceSizeContext, useTheme } from './contexts'
 
 const getWorkspaceSize = () => {
   const workspace = document.getElementById('Workspace')
@@ -31,23 +32,25 @@ const sendTracking = (filters) => {
 }
 
 const updateQueryString = (filters) => {
+  const { checkboxes } = filters
+
   const url = [
     [
       'types',
-      Object.keys(filters.types)
-        .filter((key) => !!filters.types[key].checked)
+      Object.keys(checkboxes.types)
+        .filter((key) => !!checkboxes.types[key].checked)
         .join(','),
     ],
     [
       'measures',
-      Object.keys(filters.measures)
-        .filter((key) => !!filters.measures[key].checked)
+      Object.keys(checkboxes.measures)
+        .filter((key) => !!checkboxes.measures[key].checked)
         .join(','),
     ],
     [
       'additionalFilters',
-      Object.keys(filters.additionalFilters)
-        .filter((key) => !!filters.additionalFilters[key].checked)
+      Object.keys(checkboxes.additionalFilters)
+        .filter((key) => !!checkboxes.additionalFilters[key].checked)
         .join(','),
     ],
     ['from', filters.from],
@@ -92,30 +95,32 @@ const getInitialState = () => {
   const to = parseInt(params.get('to')) || SALARY_MAX
 
   return {
-    types: Object.fromEntries(
-      types.map((key) => [
-        key,
-        {
-          data: EMPLOYMENT_TYPES.find(({ name }) => name === key),
-          checked: true,
-        },
-      ]),
-    ),
-    measures: Object.fromEntries(
-      measures.map((key) => [
-        key,
-        { data: MEASURES.find(({ name }) => name === key), checked: true },
-      ]),
-    ),
-    additionalFilters: Object.fromEntries(
-      additionalFilters.map((key) => [
-        key,
-        {
-          data: ADDITIONAL_FILTERS.find(({ name }) => name === key),
-          checked: true,
-        },
-      ]),
-    ),
+    checkboxes: {
+      types: Object.fromEntries(
+        types.map((key) => [
+          key,
+          {
+            data: EMPLOYMENT_TYPES.find(({ name }) => name === key),
+            checked: true,
+          },
+        ]),
+      ),
+      measures: Object.fromEntries(
+        measures.map((key) => [
+          key,
+          { data: MEASURES.find(({ name }) => name === key), checked: true },
+        ]),
+      ),
+      additionalFilters: Object.fromEntries(
+        additionalFilters.map((key) => [
+          key,
+          {
+            data: ADDITIONAL_FILTERS.find(({ name }) => name === key),
+            checked: true,
+          },
+        ]),
+      ),
+    },
     from: from < to ? from : to,
     to: from > to ? from : to,
   }

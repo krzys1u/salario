@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from '../../contexts/LanguageContext'
+import { useTranslation } from '../../contexts'
 
 export const LanguageSelector = () => {
   const { activeLang, changeLanguage, LANGS } = useTranslation()

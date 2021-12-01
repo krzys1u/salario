@@ -4,8 +4,8 @@ import { withDebug } from '../../utils/withDebug'
 import { API_URL } from '../../config'
 
 import { GitHub } from '@material-ui/icons'
-import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher'
-import { useTranslation } from '../../contexts/LanguageContext'
+import { ThemeSwitcher } from '../ThemeSwitcher'
+import { useTranslation } from '../../contexts'
 
 const dateToString = (timestamp) => {
   const date = new Date(parseInt(timestamp))

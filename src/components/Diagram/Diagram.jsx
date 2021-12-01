@@ -10,9 +10,7 @@ import {
 import { LegendOrdinal, LegendItem, LegendLabel } from '@vx/legend'
 import { scaleOrdinal } from '@vx/scale'
 
-import { useWorkspaceSize } from '../../contexts/WorkspaceSizeContext'
-import { useTheme } from '../../contexts/ThemeContext'
-import { useTranslation } from '../../contexts/LanguageContext'
+import { useWorkspaceSize, useTheme, useTranslation } from '../../contexts'
 
 const DOMAIN_OFFSET = 500
 

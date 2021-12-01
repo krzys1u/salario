@@ -1,13 +1,3 @@
-// const {
-//   createFirebaseService,
-//   initializeFirestore,
-// } = require('../services/FirebaseService')
-//
-// const firebaseService = createFirebaseService(initializeFirestore())
-
-// const collection = 'meta'
-// const document = 'version'
-
 module.exports = (db, DB) => {
   return async (req, res) => {
     const versionData = await db

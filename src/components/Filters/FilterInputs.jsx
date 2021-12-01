@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Input from '@material-ui/core/Input'
-import { useTranslation } from '../../contexts/LanguageContext'
+import { useTranslation } from '../../contexts'
 
 const useStyles = makeStyles({
   root: {},

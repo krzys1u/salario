@@ -4,8 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { App } from './App'
-import { withTheme } from './contexts/ThemeContext'
-import { withTranslation } from './contexts/LanguageContext'
+import { withTheme, withTranslation } from './contexts'
 
 const queryClient = new QueryClient({
   defaultOptions: {
