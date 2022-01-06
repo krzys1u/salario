@@ -20,10 +20,6 @@ export const withDebug = (Component) => {
       }
     }, [])
 
-    if (!isDebugEnabled) {
-      return <Component {...props} />
-    }
-
     return <Component {...props} />
   }
 }

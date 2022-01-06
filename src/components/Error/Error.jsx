@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
+
 import { withDebug } from '../../utils/withDebug'
 import { ErrorIcon } from './ErrorIcon'
 import { MessageCard } from '../MessageCard'

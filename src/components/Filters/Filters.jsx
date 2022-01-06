@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 
 import { SALARY_MIN, SALARY_MAX, SALARY_SLIDER_STEP } from '../../config'
 
@@ -10,6 +10,7 @@ import { FiltersCheckboxes } from './FiltersCheckboxes'
 import { useTranslation } from '../../contexts'
 
 import { withDebug } from '../../utils/withDebug'
+import { FiltersEmploymentTypes } from './FiltersEmploymentTypes'
 
 const MIN_SLIDER = SALARY_MIN
 const MAX_SLIDER = SALARY_MAX
@@ -39,6 +40,8 @@ export const Filters = withDebug(function Filters(props) {
     to: values.to > MAX_SLIDER ? MAX_SLIDER : values.to,
     checkboxes: values.checkboxes,
   })
+
+  console.info('state', state)
 
   const [isSubmitEnabled, setSubmitEnabled] = useState(true)
 
@@ -94,6 +97,37 @@ export const Filters = withDebug(function Filters(props) {
         />
 
         <FilterInputs {...filterInputsProps} />
+      </div>
+
+      <div>
+        <FiltersEmploymentTypes
+          values={Object.keys(state.checkboxes.types)
+            .filter((key) => !!state.checkboxes.types[key].checked)
+            .map((key) => state.checkboxes.types[key].data)}
+          onChange={(choosenOptions) => {
+            console.info('choosenTypes', choosenOptions)
+
+            const typesCheckboxesState = choosenOptions.map((optionData) => {
+              return [
+                optionData.name,
+                {
+                  checked: true,
+                  data: optionData,
+                },
+              ]
+            })
+
+            setState({
+              ...state,
+              checkboxes: {
+                ...state.checkboxes,
+                types: Object.fromEntries(typesCheckboxesState),
+              },
+            })
+
+            setSubmitEnabled(true)
+          }}
+        />
       </div>
 
       <FiltersCheckboxes {...filterCheckboxesProps} />

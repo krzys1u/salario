@@ -7,10 +7,10 @@ import { ADDITIONAL_FILTERS, EMPLOYMENT_TYPES, MEASURES } from '../../const'
 import { useTranslation } from '../../contexts'
 
 const getCheckboxGroupConfig = (translations) => ({
-  types: {
-    label: translations.employmentTypeLabel,
-    config: EMPLOYMENT_TYPES,
-  },
+  // types: {
+  //   label: translations.employmentTypeLabel,
+  //   config: EMPLOYMENT_TYPES,
+  // },
   measures: {
     label: translations.measuresLabel,
     config: MEASURES,
@@ -40,16 +40,16 @@ export const FiltersCheckboxes = withDebug(function FiltersCheckboxes({
   const { translations, t } = useTranslation()
 
   const checkboxUdateFunctions = {
-    types: useCallback(
-      (checkbox, checked) => {
-        updateAction(
-          updateCheckboxState(checkboxesState, 'types', { checkbox, checked }),
-        )
-
-        enableSubmit()
-      },
-      [enableSubmit, checkboxesState, updateAction],
-    ),
+    // types: useCallback(
+    //   (checkbox, checked) => {
+    //     updateAction(
+    //       updateCheckboxState(checkboxesState, 'types', { checkbox, checked }),
+    //     )
+    //
+    //     enableSubmit()
+    //   },
+    //   [enableSubmit, checkboxesState, updateAction],
+    // ),
     measures: useCallback(
       (checkbox, checked) => {
         updateAction(
@@ -99,13 +99,13 @@ export const FiltersCheckboxes = withDebug(function FiltersCheckboxes({
     }
   }
 
-  const employmentTypesProps = prepareCheckboxProps('types')
+  // const employmentTypesProps = prepareCheckboxProps('types')
   const measuresProps = prepareCheckboxProps('measures')
   const additionalFiltersProps = prepareCheckboxProps('additionalFilters')
 
   return (
     <>
-      <CheckboxGroup {...employmentTypesProps} />
+      {/*<CheckboxGroup {...employmentTypesProps} />*/}
       <CheckboxGroup {...measuresProps} />
       <CheckboxGroup {...additionalFiltersProps} />
     </>
