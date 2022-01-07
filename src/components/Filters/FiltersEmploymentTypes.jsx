@@ -12,7 +12,7 @@ import { MAX_EMPLOYMENT_TYPES } from '../../config'
 
 const options = EMPLOYMENT_TYPES
 
-const ChipWithPopover = ({ title, additionalProps }) => {
+const ChipWithPopover = ({ title, longTitle, additionalProps }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handlePopoverOpen = (event) => {
@@ -26,7 +26,7 @@ const ChipWithPopover = ({ title, additionalProps }) => {
   const open = Boolean(anchorEl)
 
   return (
-    <span>
+    <span className="filters__employmentTypes">
       <Typography
         aria-owns={open ? 'mouse-over-popover' : undefined}
         aria-haspopup="true"
@@ -50,8 +50,9 @@ const ChipWithPopover = ({ title, additionalProps }) => {
           vertical: 'top',
           horizontal: 'left',
         }}
-        disableRestoreFocus>
-        {title}
+        disableRestoreFocus
+        classes={{ paper: 'filters__employmentTypesPopover' }}>
+        {longTitle}
       </Popover>
     </span>
   )
@@ -63,9 +64,11 @@ export const FiltersEmploymentTypes = withDebug(
 
     return (
       <>
-        <Typography gutterBottom component="span">
-          {translations.employmentTypeLabel}
-        </Typography>
+        <div className="sidebar__legend">
+          <Typography gutterBottom component="legend">
+            {translations.employmentTypeLabel}
+          </Typography>
+        </div>
 
         <Autocomplete
           multiple
@@ -73,6 +76,8 @@ export const FiltersEmploymentTypes = withDebug(
           options={options}
           filterSelectedOptions
           disableCloseOnSelect
+          disableClearable
+          disableListWrap
           fullWidth
           getOptionLabel={(option) => t(option.label)}
           isOptionEqualToValue={(option, value) => option.name === value.name}
@@ -87,19 +92,18 @@ export const FiltersEmploymentTypes = withDebug(
             tagValue.map((option, index) => (
               <ChipWithPopover
                 key={`chip-${option.label}`}
-                title={t(option.label)}
+                title={t(option.shortLabel)}
+                longTitle={t(option.label)}
                 additionalProps={getTagProps({ index })}
               />
             ))
           }
           renderInput={(params) => (
-            <div>
-              <TextField
-                {...params}
-                variant="standard"
-                placeholder={translations.employmentTypeLabel}
-              />
-            </div>
+            <TextField
+              {...params}
+              variant="standard"
+              placeholder={translations.employmentTypeLabel}
+            />
           )}
         />
       </>

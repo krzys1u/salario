@@ -7,9 +7,18 @@ export const EMPLOYMENT_TYPES = [
     label: `contractOfEmploymentLabel ${creativeRightsValue}%`,
     name: `uop-${creativeRightsValue}`,
     legendLabel: `contractOfEmploymentLegendLabel ${creativeRightsValue}%`,
+    shortLabel: `contractOfEmploymentShortLabel ${creativeRightsValue}%`,
   })),
-  { label: 'B2B(19%) - lowZusLabel', name: 'b2b-low-zus' },
-  { label: 'B2B(19%) - highZusLabel', name: 'b2b-high-zus' },
+  {
+    label: 'B2B(19%) - lowZusLabel',
+    name: 'b2b-low-zus',
+    shortLabel: 'B2B - lowZusLabel',
+  },
+  {
+    label: 'B2B(19%) - highZusLabel',
+    name: 'b2b-high-zus',
+    shortLabel: 'B2B - highZusLabel',
+  },
 ]
 
 export const MEASURES = [

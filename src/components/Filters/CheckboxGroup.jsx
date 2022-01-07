@@ -2,18 +2,7 @@ import React from 'react'
 
 import { FormLabel, FormControlLabel, Checkbox } from '@mui/material'
 
-import { makeStyles } from '@mui/styles'
-
-const useStyles = makeStyles(() => ({
-  root: {
-    marginTop: '15px',
-  },
-  formControl: {},
-}))
-
 export const CheckboxGroup = ({ checkboxes, label, update }) => {
-  const classes = useStyles()
-
   const handleChange = (name) => (event) => {
     update(name, event.target.checked)
   }
@@ -39,7 +28,7 @@ export const CheckboxGroup = ({ checkboxes, label, update }) => {
   })
 
   return (
-    <div className={classes.root}>
+    <div className="sidebar__legend">
       <FormLabel component="legend">{label}</FormLabel>
       {list}
     </div>

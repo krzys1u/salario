@@ -1,21 +1,11 @@
 import React from 'react'
 import { Grid, Input } from '@mui/material'
 
-import { makeStyles } from '@mui/styles'
-
 import { useTranslation } from '../../contexts'
-
-const useStyles = makeStyles({
-  root: {},
-  input: {
-    width: 80,
-  },
-})
 
 const calculatePerHour = (value) => Math.floor(value / 160)
 
 export const FilterInputs = ({ update, min, max, step, from, to }) => {
-  const classes = useStyles()
   const { translations } = useTranslation()
 
   const handleInputChange = (kind, event) => {
@@ -51,7 +41,7 @@ export const FilterInputs = ({ update, min, max, step, from, to }) => {
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={5}>
           <Input
-            className={classes.input}
+            className="filters__input"
             value={from}
             margin="dense"
             onChange={handleInputChange.bind(this, 'from')}
@@ -70,7 +60,7 @@ export const FilterInputs = ({ update, min, max, step, from, to }) => {
         </Grid>
         <Grid item xs={5}>
           <Input
-            className={classes.input}
+            className="filters__input"
             value={to}
             margin="dense"
             onChange={handleInputChange.bind(this, 'to')}

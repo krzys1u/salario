@@ -1,19 +1,7 @@
 import React from 'react'
 import { Grid, Typography, Slider, Input } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-
-const useStyles = makeStyles({
-  root: {
-    width: 250,
-  },
-  input: {
-    width: 80,
-  },
-})
 
 export const InputSlider = ({ update, min, max, label, step, value }) => {
-  const classes = useStyles()
-
   const handleSliderChange = (event, newValue) => {
     update(newValue)
   }
@@ -31,7 +19,7 @@ export const InputSlider = ({ update, min, max, label, step, value }) => {
   }
 
   return (
-    <div className={classes.root}>
+    <div className="filters__inputs">
       {label && (
         <Typography id="input-slider" gutterBottom>
           {label}
@@ -49,7 +37,7 @@ export const InputSlider = ({ update, min, max, label, step, value }) => {
         </Grid>
         <Grid item>
           <Input
-            className={classes.input}
+            className="filters__input"
             value={value}
             margin="dense"
             onChange={handleInputChange}

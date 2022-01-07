@@ -44,6 +44,24 @@ body {
 
   background: var(--bg-color);
 
+  .filters__employmentTypesPopover {
+    padding: 5px;
+    border: var(--bg-color);
+    border-radius: 5px;
+    background: var(--bg-color);
+  }
+
+  .MuiChip-root {
+    background: var(--primary-color);
+    color: var(--header-font-color);
+  }
+
+  .MuiButtonBase-root {
+    svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium:not(.MuiChip-deleteIcon) {
+      fill: var(--primary-color);
+    }
+  }
+
   .MuiCheckbox-root,
   .MuiFormLabel-root,
   .MuiInputBase-input {
@@ -335,6 +353,22 @@ body {
         justify-content: center;
         vertical-align: middle;
       }
+    }
+
+    .filters__input {
+      width: 80px;
+    }
+
+    .filters__inputs {
+      width: 250px;
+    }
+
+    .filters__employmentTypes {
+      max-width: 50%;
+    }
+
+    div.sidebar__legend {
+      margin-top:15px;
     }
 
     @media (max-width: $break-small) {
