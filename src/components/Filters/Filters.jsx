@@ -41,8 +41,6 @@ export const Filters = withDebug(function Filters(props) {
     checkboxes: values.checkboxes,
   })
 
-  console.info('state', state)
-
   const [isSubmitEnabled, setSubmitEnabled] = useState(true)
 
   const updateRanges = useCallback(
@@ -105,8 +103,6 @@ export const Filters = withDebug(function Filters(props) {
             .filter((key) => !!state.checkboxes.types[key].checked)
             .map((key) => state.checkboxes.types[key].data)}
           onChange={(choosenOptions) => {
-            console.info('choosenTypes', choosenOptions)
-
             const typesCheckboxesState = choosenOptions.map((optionData) => {
               return [
                 optionData.name,
