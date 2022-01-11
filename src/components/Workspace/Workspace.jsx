@@ -5,7 +5,11 @@ import { Diagram } from '../Diagram'
 import { EmptyFilters } from '../EmptyFilters'
 import { withDebug } from '../../utils/withDebug'
 import { API_URL } from '../../config'
-import { EMPLOYMENT_TYPES, UOP_EMPLOYER_COST } from '../../const'
+import {
+  EMPLOYMENT_TYPES,
+  UOP_EMPLOYER_COST,
+  UOP_EMPLOYER_COST_NEW_DEAL,
+} from '../../const'
 
 const prepareParam = (name, value) => {
   if (!Array.isArray(value)) {
@@ -67,6 +71,10 @@ const prepareData = ({ types, measures, additionalFilters }, data) => {
         {
           label: 'contractOfEmploymentEmployerCostLabel',
           name: UOP_EMPLOYER_COST,
+        },
+        {
+          label: 'contractOfEmploymentEmployerCostNewDealLabel',
+          name: UOP_EMPLOYER_COST_NEW_DEAL,
         },
       ],
       type,

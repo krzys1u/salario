@@ -12,7 +12,12 @@ import { MAX_EMPLOYMENT_TYPES } from '../../config'
 
 const options = EMPLOYMENT_TYPES
 
-const ChipWithPopover = ({ title, longTitle, additionalProps }) => {
+const ChipWithPopover = ({
+  title,
+  longTitle,
+  additionalProps,
+  additionalClassNames,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handlePopoverOpen = (event) => {
@@ -33,7 +38,11 @@ const ChipWithPopover = ({ title, longTitle, additionalProps }) => {
         component="span"
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}>
-        <Chip label={title} {...additionalProps} />
+        <Chip
+          label={title}
+          {...additionalProps}
+          classes={{ root: additionalClassNames }}
+        />
       </Typography>
       <Popover
         sx={{
@@ -88,21 +97,30 @@ export const FiltersEmploymentTypes = withDebug(
           onChange={(event, choosenOptions) => {
             onChange(choosenOptions)
           }}
-          renderTags={(tagValue, getTagProps) =>
-            tagValue.map((option, index) => (
+          renderTags={(tagValue, getTagProps) => {
+            console.info('tagValue', tagValue)
+            return tagValue.map((option, index) => (
               <ChipWithPopover
                 key={`chip-${option.label}`}
                 title={t(option.shortLabel)}
                 longTitle={t(option.label)}
                 additionalProps={getTagProps({ index })}
+                additionalClassNames={
+                  option.name.includes('-nl')
+                    ? 'chip__newDeal'
+                    : 'chip__noNewDeal'
+                }
               />
             ))
-          }
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
               variant="standard"
-              placeholder={translations.employmentTypeLabel}
+              placeholder={translations.autocompletePlaceholder.replace(
+                '%s',
+                MAX_EMPLOYMENT_TYPES,
+              )}
             />
           )}
         />
