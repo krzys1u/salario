@@ -1,6 +1,9 @@
 const fetchData = require('./fetchData')
 const { getKnex } = require('../knexfile')
 
+const NEW_DEAL_YEAR = 2022
+const BEFORE_NEW_DEAL_YEAR = 2021
+
 const DB_USE = 'postgres'
 
 const pgDB = {
@@ -108,7 +111,10 @@ const createNewVersion = async (data) => {
 ;(async () => {
   database.init()
 
-  const data = await fetchData()
+  const dataBefore2022 = await fetchData(BEFORE_NEW_DEAL_YEAR)
+  const dataNewDeal = await fetchData(NEW_DEAL_YEAR, '-nd')
+
+  const data = [...dataBefore2022, ...dataNewDeal]
 
   await createNewVersion(data)
 

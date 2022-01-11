@@ -1,22 +1,7 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import Slider from '@material-ui/core/Slider'
-import Input from '@material-ui/core/Input'
-
-const useStyles = makeStyles({
-  root: {
-    width: 250,
-  },
-  input: {
-    width: 80,
-  },
-})
+import { Grid, Typography, Slider, Input } from '@mui/material'
 
 export const InputSlider = ({ update, min, max, label, step, value }) => {
-  const classes = useStyles()
-
   const handleSliderChange = (event, newValue) => {
     update(newValue)
   }
@@ -34,7 +19,7 @@ export const InputSlider = ({ update, min, max, label, step, value }) => {
   }
 
   return (
-    <div className={classes.root}>
+    <div className="filters__inputs">
       {label && (
         <Typography id="input-slider" gutterBottom>
           {label}
@@ -52,7 +37,7 @@ export const InputSlider = ({ update, min, max, label, step, value }) => {
         </Grid>
         <Grid item>
           <Input
-            className={classes.input}
+            className="filters__input"
             value={value}
             margin="dense"
             onChange={handleInputChange}

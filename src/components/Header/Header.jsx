@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { withDebug } from '../../utils/withDebug'
 import { API_URL } from '../../config'
 
-import { GitHub } from '@material-ui/icons'
+import { GitHub } from '@mui/icons-material'
 import { ThemeSwitcher } from '../ThemeSwitcher'
 import { useTranslation } from '../../contexts'
 

@@ -1,6 +1,5 @@
 import React from 'react'
-import FormLabel from '@material-ui/core/FormLabel'
-import Slider from '@material-ui/core/Slider'
+import { FormLabel, Slider } from '@mui/material'
 
 import { useTranslation } from '../../contexts'
 import { SALARY_MAX, SALARY_MIN, SALARY_SLIDER_STEP } from '../../config'

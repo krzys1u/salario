@@ -9,13 +9,16 @@ const {
 
 const ENDPOINT = 'https://api.bankier.pl/calculators/salary/calculate/uop'
 
-const HIGH_ZUS = 1457.49
-const LOW_ZUS = 627.01
-const INCOME_TAX_PERCENTAGE = 0.19
+const BEFORE_2022 = 0
+const NEW_DEAL = 1
+
+const HIGH_ZUS = [1457.49, 1457.49]
+const LOW_ZUS = [627.01, 627.01]
+const INCOME_TAX_PERCENTAGE = [0.19, 0.19]
 
 const BATCH_SIZE = 100
 
-const results = []
+let results = []
 
 let toRetry = []
 
@@ -56,7 +59,7 @@ const getAvg = (array, key) =>
     array.reduce((acc, monthData) => acc + monthData[key], 0) / array.length,
   )
 
-const parseSalaryData = (salaryData, creativeRightsValue) => ({
+const parseSalaryData = (salaryData, creativeRightsValue, suffix = '') => ({
   gross: salaryData.koszty[0].kwota_brutto,
   nettoMin: getMin(salaryData.koszty, 'kwota_netto'),
   nettoMax: getMax(salaryData.koszty, 'kwota_netto'),
@@ -84,25 +87,24 @@ const parseSalaryData = (salaryData, creativeRightsValue) => ({
     avg: getAvg(salaryData.koszty, 'pracodawca_koszt_calkowity'),
     sum: salaryData.podsumowanie.suma_pracodawca_koszt_calkowity,
   },
-  type: `uop-${creativeRightsValue}`,
+  type: `uop-${creativeRightsValue}${suffix}`,
 })
 
-const prepareB2bLineData = (brutto, zus) => ({
+const prepareB2bLineData = (brutto, zus, variant, suffix = '') => ({
   gross: brutto,
-  nettoMin: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
-  nettoMax: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
-  nettoAvg: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
-  nettoSum: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus) * 12,
+  nettoMin: round(brutto * (1 - INCOME_TAX_PERCENTAGE[variant]) - zus[variant]),
+  nettoMax: round(brutto * (1 - INCOME_TAX_PERCENTAGE[variant]) - zus[variant]),
+  nettoAvg: round(brutto * (1 - INCOME_TAX_PERCENTAGE[variant]) - zus[variant]),
+  nettoSum:
+    round(brutto * (1 - INCOME_TAX_PERCENTAGE[variant]) - zus[variant]) * 12,
   taxMin: null,
   taxMax: null,
   taxAvg: null,
   taxSum: null,
-  type: `b2b-${zus === LOW_ZUS ? 'low-zus' : 'high-zus'}`,
+  type: `b2b-${zus === LOW_ZUS ? 'low-zus' : 'high-zus'}${suffix}`,
 })
 
-const fetchData = async (brutto, creativeRightsPercent = 0) => {
-  const year = new Date().getFullYear()
-
+const fetchData = async (year, brutto, creativeRightsPercent = 0) => {
   const response = await fetch(ENDPOINT, {
     method: 'post',
     body: JSON.stringify({
@@ -142,9 +144,9 @@ const bruttoWithCreativeRights = bruttoValues.flatMap((brutto) =>
   }),
 )
 
-const fetchBatch = (batch) =>
+const fetchBatch = (year, batch) =>
   batch.map(({ brutto, creativeRightsValue }) =>
-    fetchData(brutto, creativeRightsValue)
+    fetchData(year, brutto, creativeRightsValue)
       .then((data) => ({
         ...data,
         meta: {
@@ -164,7 +166,7 @@ const fetchBatch = (batch) =>
       }),
   )
 
-const parseBatch = async (batch) => {
+const parseBatch = async (batch, suffix = '') => {
   for await (let data of batch) {
     const { ok, brutto, creativeRightsValue } = data.meta
 
@@ -176,7 +178,7 @@ const parseBatch = async (batch) => {
       continue
     }
 
-    results.push(parseSalaryData(data, creativeRightsValue))
+    results.push(parseSalaryData(data, creativeRightsValue, suffix))
 
     fetched++
   }
@@ -192,7 +194,16 @@ const prepareBatches = (data) => {
 
 let batches = prepareBatches(bruttoWithCreativeRights)
 
-module.exports = async () => {
+module.exports = async (year, suffix = '') => {
+  console.info(`Fetching data for year ${year} with suffix="${suffix}"`)
+
+  results = []
+  toRetry = []
+  fetched = 0
+  fetchedBatches = 0
+
+  batches = prepareBatches(bruttoWithCreativeRights)
+
   do {
     toRetry = []
 
@@ -204,8 +215,8 @@ module.exports = async () => {
         `Start fetching of batch number ${batchId}/${batches.length}`,
       )
 
-      const data = await fetchBatch(batch)
-      await parseBatch(data)
+      const data = await fetchBatch(year, batch)
+      await parseBatch(data, suffix)
 
       printReport()
 
@@ -222,15 +233,29 @@ module.exports = async () => {
   } while (toRetry.length !== 0)
 
   bruttoValues.forEach((brutto) => {
-    results.push(prepareB2bLineData(brutto, HIGH_ZUS))
-    results.push(prepareB2bLineData(brutto, LOW_ZUS))
+    results.push(
+      prepareB2bLineData(
+        brutto,
+        HIGH_ZUS,
+        suffix.length ? NEW_DEAL : BEFORE_2022,
+        suffix,
+      ),
+    )
+    results.push(
+      prepareB2bLineData(
+        brutto,
+        LOW_ZUS,
+        suffix.length ? NEW_DEAL : BEFORE_2022,
+        suffix,
+      ),
+    )
   })
 
   const employerCost = results
-    .filter(({ type }) => type === 'uop-0')
+    .filter(({ type }) => type === `uop-0${suffix}`)
     .map((data) => ({
       ...data,
-      type: 'uop-employer-cost',
+      type: `uop-employer-cost${suffix}`,
       nettoMin: data.costs.min,
       nettoMax: data.costs.max,
       nettoAvg: data.costs.avg,

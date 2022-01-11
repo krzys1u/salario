@@ -1,4 +1,4 @@
-import { UOP_EMPLOYER_COST } from '../const'
+import { UOP_EMPLOYER_COST, UOP_EMPLOYER_COST_NEW_DEAL } from '../const'
 
 const prepareParam = (param) => {
   if (!param) {
@@ -30,7 +30,7 @@ module.exports = (db) => {
     const typesToFetch = [
       ...prepareParam(types),
       ...((prepareParam(additionalFilters) || []).includes('showEmployerCost')
-        ? [UOP_EMPLOYER_COST]
+        ? [UOP_EMPLOYER_COST, UOP_EMPLOYER_COST_NEW_DEAL]
         : []),
     ]
 

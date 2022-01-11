@@ -15,6 +15,7 @@ $break-small: 640px;
   --disabled-color: #00000042;
   --loader-letter-color: #3f51b5bd;
   --loader-pipe-color: #3f51b5;
+  --newDealChipColor: #c92b2a;
 
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
@@ -34,6 +35,7 @@ $break-small: 640px;
   --disabled-color: #777777;
   --loader-letter-color: #58a6ffbd;
   --loader-pipe-color: #58a6ff;
+  --newDealChipColor: #862e9c;
 }
 
 body {
@@ -43,6 +45,27 @@ body {
   box-sizing:border-box;
 
   background: var(--bg-color);
+
+  .filters__employmentTypesPopover {
+    padding: 5px;
+    border: var(--bg-color);
+    border-radius: 5px;
+    background: var(--bg-color);
+  }
+
+  .MuiChip-root {
+    &.chip__newDeal {
+      background: var(--newDealChipColor);
+    }
+    background: var(--primary-color);
+    color: var(--header-font-color);
+  }
+
+  .MuiButtonBase-root {
+    svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium:not(.MuiChip-deleteIcon) {
+      fill: var(--primary-color);
+    }
+  }
 
   .MuiCheckbox-root,
   .MuiFormLabel-root,
@@ -335,6 +358,22 @@ body {
         justify-content: center;
         vertical-align: middle;
       }
+    }
+
+    .filters__input {
+      width: 80px;
+    }
+
+    .filters__inputs {
+      width: 250px;
+    }
+
+    .filters__employmentTypes {
+      max-width: 50%;
+    }
+
+    div.sidebar__legend {
+      margin-top:15px;
     }
 
     @media (max-width: $break-small) {
