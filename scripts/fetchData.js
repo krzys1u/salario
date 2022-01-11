@@ -12,9 +12,9 @@ const ENDPOINT = 'https://api.bankier.pl/calculators/salary/calculate/uop'
 const BEFORE_2022 = 0
 const NEW_DEAL = 1
 
-const HIGH_ZUS = [1457.49, 1457.49]
-const LOW_ZUS = [627.01, 627.01]
-const INCOME_TAX_PERCENTAGE = [0.19, 0.19]
+const HIGH_ZUS = [1457.49, 1211.28]
+const LOW_ZUS = [627.01, 263.59]
+const INCOME_TAX_PERCENTAGE = [0.19, 0.239]
 
 const BATCH_SIZE = 100
 
@@ -119,7 +119,8 @@ const fetchData = async (year, brutto, creativeRightsPercent = 0) => {
       czy_oswiadczenie_pobieranie_pit_mlody: 0,
       czy_oswiadczenie_niepobieranie_drugi_prog: 0,
       praca_poza_miejscem_zamieszkania: 0,
-      czy_kwota_wolna: 0,
+      czy_kwota_wolna: 1,
+      czy_ulga_klasa_srednia: 1,
       czy_fp: 1,
       czy_fgsp: 1,
       czy_ppk: 0,

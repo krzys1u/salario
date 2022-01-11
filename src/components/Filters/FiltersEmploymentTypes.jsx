@@ -98,20 +98,21 @@ export const FiltersEmploymentTypes = withDebug(
             onChange(choosenOptions)
           }}
           renderTags={(tagValue, getTagProps) => {
-            console.info('tagValue', tagValue)
-            return tagValue.map((option, index) => (
-              <ChipWithPopover
-                key={`chip-${option.label}`}
-                title={t(option.shortLabel)}
-                longTitle={t(option.label)}
-                additionalProps={getTagProps({ index })}
-                additionalClassNames={
-                  option.name.includes('-nl')
-                    ? 'chip__newDeal'
-                    : 'chip__noNewDeal'
-                }
-              />
-            ))
+            return tagValue.map((option, index) => {
+              const additionalClassNames = option.name.includes('-nd')
+                ? 'chip__newDeal'
+                : 'chip__noNewDeal'
+
+              return (
+                <ChipWithPopover
+                  key={`chip-${option.label}`}
+                  title={t(option.shortLabel)}
+                  longTitle={t(option.label)}
+                  additionalProps={getTagProps({ index })}
+                  additionalClassNames={additionalClassNames}
+                />
+              )
+            })
           }}
           renderInput={(params) => (
             <TextField
